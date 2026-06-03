@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DermaCare — міні-магазин дерматокосметики</title>
+  <title>skinova.com.ua — міні-магазин дерматокосметики</title>
   <meta name="description" content="Адаптивний міні-магазин дерматокосметики на HTML, JavaScript та Tailwind CSS без бекенду." />
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -41,9 +41,9 @@
   <header class="sticky top-0 z-40 border-b border-white/70 bg-derm-cream/90 backdrop-blur-xl">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
       <button class="route-link flex items-center gap-3" data-route="home" aria-label="На головну">
-        <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-derm-dark text-lg font-bold text-white shadow-soft">D</span>
+        <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-derm-dark text-lg font-bold text-white shadow-soft">S</span>
         <span class="text-left">
-          <span class="block text-lg font-bold tracking-tight text-derm-dark">DermaCare</span>
+          <span class="block text-lg font-bold tracking-tight text-derm-dark">skinova.com.ua</span>
           <span class="hidden text-xs text-slate-500 sm:block">дерматокосметика для щоденного догляду</span>
         </span>
       </button>
@@ -83,7 +83,7 @@
   <footer class="mt-16 border-t border-white/70 bg-derm-dark text-white">
     <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3 lg:px-8">
       <div>
-        <p class="text-xl font-bold">DermaCare</p>
+        <p class="text-xl font-bold">skinova.com.ua</p>
         <p class="mt-3 text-sm leading-6 text-white/70">Міні-магазин дерматокосметики з локальним кошиком, адаптивним каталогом і простим оформленням замовлення без бекенду.</p>
       </div>
       <div>
@@ -96,10 +96,10 @@
       </div>
       <div>
         <p class="font-semibold">Контакти</p>
-        <p class="mt-3 text-sm leading-6 text-white/70">Україна, Київ<br />+38 (000) 000-00-00<br />support@dermacare.ua</p>
+        <p class="mt-3 text-sm leading-6 text-white/70">Україна, Київ<br />+38 (000) 000-00-00<br />support@skinova.com.ua</p>
       </div>
     </div>
-    <div class="border-t border-white/10 px-4 py-4 text-center text-xs text-white/50">© 2026 DermaCare. Демонстраційний frontend-проєкт.</div>
+    <div class="border-t border-white/10 px-4 py-4 text-center text-xs text-white/50">© 2026 skinova.com.ua. Демонстраційний frontend-проєкт.</div>
   </footer>
 
   <div id="productModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/55 p-4 backdrop-blur-sm" role="dialog" aria-modal="true">
@@ -149,7 +149,6 @@
             <select id="deliveryMethod" class="input-field" required>
               <option value="">Оберіть спосіб доставки</option>
               <option>Нова Пошта</option>
-              <option>Самовивіз</option>
             </select>
           </div>
           <div>
@@ -180,285 +179,9 @@
     'use strict';
 
     /* =========================================================
-       1. ЛОКАЛЬНА БАЗА ТОВАРІВ
+       1. ЛОКАЛЬНА БАЗА ТОВАРІВ (ЗАВАНТАЖЕНО З ФАЙЛУ Сайт 1.xlsx)
     ========================================================== */
-    const products = [
-      {
-        id: 1,
-        name: 'Perolite 2.5 Benzoyl Peroxide Gel',
-        category: 'акне',
-        price: 420,
-        oldPrice: 495,
-        image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=80',
-        description: 'Гель з бензоїл пероксидом 2.5% для локального догляду за шкірою, схильною до висипань. Підходить для поступового введення активного догляду, коли потрібна м’якіша концентрація.',
-        ingredients: 'Benzoyl Peroxide 2.5%, очищена вода, гелеутворювач, зволожувальні компоненти, допоміжні стабілізатори.',
-        usage: 'Наносити тонким шаром на чисту суху шкіру 1 раз на день. Починати з 2–3 разів на тиждень, уранці обов’язково використовувати SPF.'
-      },
-      {
-        id: 2,
-        name: 'Perolite 5 Benzoyl Peroxide Gel',
-        category: 'акне',
-        price: 455,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=900&q=80',
-        description: 'Гель з бензоїл пероксидом 5% для догляду за проблемною шкірою з вираженими запальними елементами. Засіб може підсушувати, тому потребує правильного поєднання зі зволоженням.',
-        ingredients: 'Benzoyl Peroxide 5%, очищена вода, полімерна гелева основа, стабілізатори, допоміжні компоненти.',
-        usage: 'Наносити локально або тонким шаром на зони висипань. Не поєднувати в один етап з ретиноїдами без рекомендації спеціаліста.'
-      },
-      {
-        id: 3,
-        name: 'Adaferin Adapalene 0.1% Gel',
-        category: 'акне',
-        price: 530,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=900&q=80',
-        description: 'Гель з адапаленом 0.1% для вечірнього догляду за шкірою, схильною до комедонів, нерівної текстури та повторних висипань.',
-        ingredients: 'Adapalene 0.1%, гелева основа, очищена вода, допоміжні компоненти, стабілізатори.',
-        usage: 'Використовувати ввечері на суху шкіру. Починати 2–3 рази на тиждень, поступово збільшуючи частоту за умови доброї переносимості.'
-      },
-      {
-        id: 4,
-        name: 'Clinoper Clindamycin + Benzoyl Peroxide Gel',
-        category: 'акне',
-        price: 590,
-        oldPrice: 695,
-        image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=80',
-        description: 'Комбінований гель для догляду за проблемною шкірою з висипаннями. Поєднання кліндаміцину та бензоїл пероксиду часто використовують у протоколах для запальних елементів.',
-        ingredients: 'Clindamycin Phosphate, Benzoyl Peroxide, гелева основа, очищена вода, стабілізатори.',
-        usage: 'Наносити згідно з рекомендацією спеціаліста. Уникати одночасного нанесення на подразнену або пошкоджену шкіру.'
-      },
-      {
-        id: 5,
-        name: 'Acnelite Benzoyl Peroxide 2.5% Soap',
-        category: 'акне',
-        price: 315,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1584305574647-0cc949a2bb9f?auto=format&fit=crop&w=900&q=80',
-        description: 'Очищувальне мило з бензоїл пероксидом 2.5% для обличчя та тіла, схильних до висипань. Може бути корисним для зон спини, плечей і грудей.',
-        ingredients: 'Benzoyl Peroxide 2.5%, мильна основа, гліцерин, допоміжні компоненти.',
-        usage: 'Спінити у руках, нанести на вологу шкіру на 20–40 секунд, ретельно змити. Після очищення нанести зволожувальний крем.'
-      },
-      {
-        id: 6,
-        name: 'Rozex Metronidazole 0.75% Gel',
-        category: 'акне',
-        price: 480,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=900&q=80',
-        description: 'Гель з метронідазолом 0.75% для догляду за шкірою з почервонінням, папулами та чутливістю. Підходить для делікатного точкового використання.',
-        ingredients: 'Metronidazole 0.75%, очищена вода, гелева основа, зволожувальні та допоміжні компоненти.',
-        usage: 'Наносити тонким шаром на чисту суху шкіру. Уникати ділянки навколо очей та агресивного очищення.'
-      },
-      {
-        id: 7,
-        name: 'Eleclin-T Clindamycin Gel 1%',
-        category: 'акне',
-        price: 395,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=900&q=80',
-        description: 'Гель з кліндаміцином 1% для проблемної шкіри з локальними запальними елементами. Підходить для коротких курсів за рекомендацією спеціаліста.',
-        ingredients: 'Clindamycin 1%, гелева основа, очищена вода, допоміжні речовини.',
-        usage: 'Наносити локально або на зони висипань. Не використовувати безконтрольно тривалий час.'
-      },
-      {
-        id: 8,
-        name: 'Perolite-A Adapalene + Benzoyl Peroxide',
-        category: 'акне',
-        price: 640,
-        oldPrice: 755,
-        image: 'https://images.unsplash.com/photo-1615396899839-c99c121888b0?auto=format&fit=crop&w=900&q=80',
-        description: 'Комбінований засіб з адапаленом та бензоїл пероксидом для комплексного вечірнього догляду при комедонах і запальних висипаннях.',
-        ingredients: 'Adapalene, Benzoyl Peroxide, гелева основа, стабілізатори, допоміжні компоненти.',
-        usage: 'Наносити ввечері тонким шаром. Починати поступово, обов’язково підтримувати шкірний бар’єр зволоженням і SPF.'
-      },
-      {
-        id: 9,
-        name: 'Barrier Calm Cream для проблемної шкіри',
-        category: 'акне',
-        price: 365,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1629198735660-e39ea93f5c18?auto=format&fit=crop&w=900&q=80',
-        description: 'Відновлювальний крем для шкіри, яка використовує активи: бензоїл пероксид, адапален, кислоти або ретиноїди. Допомагає зменшити відчуття сухості та стягнення.',
-        ingredients: 'Niacinamide, Panthenol, Ceramide NP, Allantoin, Squalane, Glycerin.',
-        usage: 'Наносити після активного засобу або окремо вранці та ввечері. Уранці завершувати SPF-захистом.'
-      },
-      {
-        id:10,
-        name: 'Melafine Hydroquinone 4% Cream',
-        category: 'пігментація',
-        price: 520,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1601612628452-9e99ced43524?auto=format&fit=crop&w=900&q=80',
-        description: 'Крем з гідрохіноном 4% для локального догляду за зонами гіперпігментації. Засіб потребує обережного використання та щоденного SPF.',
-        ingredients: 'Hydroquinone 4%, кремова основа, емоленти, стабілізатори, допоміжні компоненти.',
-        usage: 'Наносити тільки на пігментовані ділянки ввечері. Не використовувати на подразненій шкірі. Уранці обов’язково SPF 50.'
-      },
-      {
-        id: 11,
-        name: 'Azelderm Azelaic Acid 20% Cream',
-        category: 'пігментація',
-        price: 475,
-        oldPrice: 560,
-        image: 'https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=900&q=80',
-        description: 'Крем з азелаїновою кислотою 20% для догляду за тоном, постакне, нерівною текстурою та шкірою, схильною до почервоніння.',
-        ingredients: 'Azelaic Acid 20%, кремова основа, гліцерин, стабілізатори, допоміжні компоненти.',
-        usage: 'Наносити тонким шаром 1 раз на день. При чутливості починати через день. У денному догляді використовувати SPF.'
-      },
-      {
-        id: 12,
-        name: 'Kojic Bright Serum',
-        category: 'пігментація',
-        price: 390,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=900&q=80',
-        description: 'Сироватка для сяйва шкіри з койєвою кислотою, ніацинамідом і антиоксидантами. Підходить для нерівного тону та тьмяності.',
-        ingredients: 'Kojic Acid, Niacinamide, Licorice Extract, Glycerin, Panthenol.',
-        usage: 'Наносити 3–5 крапель на очищену шкіру перед кремом. Уникати поєднання з агресивними кислотами в один вечір.'
-      },
-      {
-        id: 13,
-        name: 'Vitamin C 15% Glow Serum',
-        category: 'пігментація',
-        price: 610,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1608248543884-6a56b1fef23a?auto=format&fit=crop&w=900&q=80',
-        description: 'Антиоксидантна сироватка з вітаміном C для ранкового догляду, візуального сяйва та підтримки рівномірного тону.',
-        ingredients: 'Ascorbic Acid 15%, Ferulic Acid, Vitamin E, Hyaluronic Acid, стабілізована основа.',
-        usage: 'Використовувати вранці під крем і SPF. Починати з 3–4 разів на тиждень при чутливій шкірі.'
-      },
-      {
-        id: 14,
-        name: 'Tranexamic Acid 5% Serum',
-        category: 'пігментація',
-        price: 545,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=900&q=80',
-        description: 'Сироватка з транексамовою кислотою для догляду за нерівним тоном, постзапальною пігментацією та візуальною тьмяністю.',
-        ingredients: 'Tranexamic Acid 5%, Niacinamide, Hyaluronic Acid, Panthenol, очищена вода.',
-        usage: 'Наносити ввечері або вранці під SPF. Не наносити на подразнену шкіру після пілінгів.'
-      },
-      {
-        id: 15,
-        name: 'Dr. Richesse Revine SPF 50+ PA++++',
-        category: 'пігментація',
-        price: 850,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1556228852-80b6e5eeff06?auto=format&fit=crop&w=900&q=80',
-        description: 'Сонцезахисний крем SPF 50+ PA++++ для щоденного захисту шкіри, особливо при догляді від пігментації, після кислот, ретиноїдів або салонних процедур.',
-        ingredients: 'UV-фільтри, PDRN, екзосоми Panax ginseng, Collagen 300 Da, зволожувальна основа.',
-        usage: 'Наносити щедро за 15 хвилин до виходу на сонце. Поновлювати протягом дня, особливо після потіння або вмивання.'
-      },
-      {
-        id: 16,
-        name: 'Niacinamide 10% Tone Corrector',
-        category: 'пігментація',
-        price: 360,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=900&q=80',
-        description: 'Легка сироватка з ніацинамідом 10% для підтримки рівного тону, зменшення блиску та зміцнення бар’єрної функції шкіри.',
-        ingredients: 'Niacinamide 10%, Zinc PCA, Panthenol, Glycerin, Hyaluronic Acid.',
-        usage: 'Використовувати 1–2 рази на день перед кремом. Добре поєднується з SPF та базовим зволоженням.'
-      },
-      {
-        id: 17,
-        name: 'Lactic Peel Gentle 10%',
-        category: 'пігментація',
-        price: 430,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=900&q=80',
-        description: 'М’який кислотний догляд з молочною кислотою для гладкості, сяйва та поступового вирівнювання текстури шкіри.',
-        ingredients: 'Lactic Acid 10%, Panthenol, Aloe Vera, Glycerin, pH-корегувальна система.',
-        usage: 'Наносити ввечері 1–2 рази на тиждень. Не поєднувати в один вечір з ретиноїдами та сильними кислотами.'
-      },
-      {
-        id: 18,
-        name: 'Licorice & Arbutin Bright Cream',
-        category: 'пігментація',
-        price: 470,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1629198735660-e39ea93f5c18?auto=format&fit=crop&w=900&q=80',
-        description: 'Крем з арбутином та екстрактом солодки для щоденного догляду за шкірою з нерівним тоном і постакне.',
-        ingredients: 'Alpha-Arbutin, Licorice Extract, Niacinamide, Shea Butter, Panthenol.',
-        usage: 'Наносити вранці або ввечері після сироватки. У денній рутині завершувати SPF-захистом.'
-      },
-      {
-        id: 19,
-        name: 'Urea 10% Repair Cream',
-        category: 'псоріаз',
-        price: 340,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?auto=format&fit=crop&w=900&q=80',
-        description: 'Крем з сечовиною 10% для сухих, шорстких ділянок шкіри. Допомагає пом’якшити лущення та підтримати комфорт шкіри.',
-        ingredients: 'Urea 10%, Glycerin, Shea Butter, Panthenol, Allantoin, Ceramide NP.',
-        usage: 'Наносити 1–2 рази на день на сухі ділянки. Не наносити на відкриті тріщины або сильно подразнену шкіру.'
-      },
-      {
-        id: 20,
-        name: 'Salicylic 5% Scalp & Body Cream',
-        category: 'псоріаз',
-        price: 390,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=80',
-        description: 'Крем з саліциловою кислотою для зон з вираженим лущенням. Підходить для точкового догляду за грубими ділянками.',
-        ingredients: 'Salicylic Acid 5%, емолентна основа, вазелін, гліцерин, допоміжні компоненти.',
-        usage: 'Наносити тонким шаром на обмежені ділянки. Не використовувати на великих площах без рекомендації спеціаліста.'
-      },
-      {
-        id: 21,
-        name: 'Tarlic Therapeutic Tar Shampoo',
-        category: 'псоріаз',
-        price: 455,
-        oldPrice: 535,
-        image: 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=900&q=80',
-        description: 'Шампунь з дьогтем для шкіри голови, схильної до лущення, свербежу та дискомфорту. Допомагає підтримувати чистоту та комфорт між основними процедурами догляду.',
-        ingredients: 'Coal Tar, м’які ПАР, гліцерин, кондиціонувальні додатки, допоміжні компоненти.',
-        usage: 'Нанести на вологу шкіру голови, залишити на 2–3 хвилини, ретельно змити. Використиувати 2–3 рази на тиждень.'
-      },
-      {
-        id: 22,
-        name: 'Zinc Pyrithione Calming Shampoo',
-        category: 'псоріаз',
-        price: 410,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1608248543884-6a56b1fef23a?auto=format&fit=crop&w=900&q=80',
-        description: 'Шампунь з цинк піритіоном для догляду за шкірою голови зі схильністю до лущення та жирності. Підходить для чергування з м’яким шампунем.',
-        ingredients: 'Zinc Pyrithione, м’які очищувальні компоненти, Panthenol, Glycerin, Menthol.',
-        usage: 'Використовувати 2–3 рази на тиждень. При сухості чергувати з делікатним зволожувальним шампунем.'
-      },
-      {
-        id: 23,
-        name: 'Ceramide Emollient Balm',
-        category: 'псоріаз',
-        price: 520,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=900&q=80',
-        description: 'Насичений емолієнтний бальзам для дуже сухої шкіри. Підходить як базовий підтримувальний догляд при лущенні, сухості та відчутті стягнення.',
-        ingredients: 'Ceramide NP/AP/EOP, Cholesterol, Fatty Acids, Shea Butter, Squalane, Panthenol.',
-        usage: 'Наносити після душу або за потреби протягом дня. Для кращого ефекту наносити на трохи вологу шкіру.'
-      },
-      {
-        id: 24,
-        name: 'Panthenol 5% Recovery Lotion',
-        category: 'псоріаз',
-        price: 295,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1584305574647-0cc949a2bb9f?auto=format&fit=crop&w=900&q=80',
-        description: 'Легкий лосьйон з пантенолом 5% для щоденного заспокоєння та зволоження сухої, чутливої шкіри тіла.',
-        ingredients: 'Panthenol 5%, Glycerin, Allantoin, Aloe Vera, легка emulsійна основа.',
-        usage: 'Наносити 1–3 рази на день на чисту шкіру. Можна використовувати після душу як базовий догляд.'
-      },
-      {
-        id: 25,
-        name: 'Oat Lipid Sensitive Skin Wash',
-        category: 'псоріаз',
-        price: 330,
-        oldPrice: null,
-        image: 'https://images.unsplash.com/photo-1556228852-80b6e5eeff06?auto=format&fit=crop&w=900&q=80',
-        description: 'М’який очищувальний засіб для сухої та чутливої шкіри. Не містить агресивного очищення, допомагає зменшити відчуття сухості після душу.',
-        ingredients: 'Colloidal Oat, Glycerin, м’які ПАР, Betaine, Panthenol, ліпідні компоненти.',
-        usage: 'Нанести на вологу шкіру, делікатно спінити та змити. Після душу нанести емолієнт або крем.'
-      }
-    ];
+    const products = [{"id": 1, "name": "Гель Eritretin — подвійна дія проти акне та запалення", "category": "Дерматологічний догляд", "subcategory": "Проблемна шкіра", "price": 428, "oldPrice": 499, "image": "https://skinel.com.ua/content/images/42/82966280446135_+eff5b74044.jpeg", "description": "Eritretin (Еритретин) — це високоефективний дерматологічний гель турецького виробництва, спеціально розроблений для терапії вугрової висипки (акне) середнього та важкого ступеня. У...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 2, "name": "Експігмент крем 4%, 30 г", "category": "Дерматологічний догляд", "subcategory": "Проблемна шкіра", "price": 420, "oldPrice": null, "image": "https://skinel.com.ua/content/images/1/29149205013841_+d74034a4b2.png", "description": "Комплексний підхід до догляду за шкірою Комплекс для шкіри Для стійкого результату важливо поєднувати м’яке очищення , зволоження та цільові креми від пігментації. Рекомендації від...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на очищену суху шкіру згідно з рекомендаціями або призначенням спеціаліста."}, {"id": 3, "name": "Крем від пігментних плям Melafine аналог Triluma Трілума", "category": "Дерматологічний догляд", "subcategory": "Пігментація, мелазма та постакне", "price": 349, "oldPrice": null, "image": "https://skinel.com.ua/content/images/34/42603669456993_+302c1d9d68.jpeg", "description": "Огляд продукту та призначення Крем Melafine (Мелафайн) — це високотехнологічний дерматологічний засіб, розроблений для системної боротьби з гіперпігментацією будь-якого походження....", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 4, "name": "Мило від акне Перолайт бензойл пероксид 2,5 Soap Perolite", "category": "Дерматологічний догляд", "subcategory": "Проблемна шкіра", "price": 455, "oldPrice": null, "image": "https://skinel.com.ua/content/images/9/mylo-vid-akne-perolait-benzoil-peroksyd-25-soap-perolite-51587057271030_+bee66d87ef.jpg", "description": "Перолайт — єдине в Україні мило, яке містить потужну активну речовину бензоїл пероксид. Воно ефективно бореться з бактеріями, що є головною причиною появи прищів та вугрів. Завдяки...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на очищену суху шкіру згідно з рекомендаціями або призначенням спеціаліста."}, {"id": 5, "name": "Мило 2.5 і гель 2.5 Перолайт комплекс від акне Індія Perolite", "category": "Дерматологічний догляд", "subcategory": "Проблемна шкіра", "price": 700, "oldPrice": null, "image": "https://skinel.com.ua/content/images/3/mylo-i-hel-perolait-kompleks-vid-akne-indiia-perolite-86589281881835_+b30d3aa979.jpg", "description": "Комплекс Perolite (Перолайт) — це професійна дерматологічна система для лікування вугрової хвороби на початкових та середніх стадіях, яка складається з лікувального мила та гелю з ...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 6, "name": "Посилений комплекс від акне мило і гель Перолайт Perolite Індія", "category": "Дерматологічний догляд", "subcategory": "Проблемна шкіра", "price": 700, "oldPrice": null, "image": "https://skinel.com.ua/content/images/4/posylenyi-kompleks-vid-akne-perolait-perolite-indiia-78186856310122_+47a1c5ff62.jpg", "description": "Посилений комплекс Perolite (Перолайт) — це потужна двоступенева система для інтенсивної терапії акне середнього та тяжкого ступенів. До складу набору входить тверде антибактеріаль...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 7, "name": "Гель і мило Перолайт кліндаміцин і бензоїл пероксид Perolite", "category": "Дерматологічний догляд", "subcategory": "Проблемна шкіра", "price": 600, "oldPrice": null, "image": "https://skinel.com.ua/content/images/5/hel-i-mylo-perolait-klindamitsyn-i-benzoil-peroksyd-perolite-88890032074685_+2ee29066ca.jpg", "description": "Комбінований комплекс Perolite (Перолайт) — це потужна дерматологічна система інтенсивної дії, спеціально розроблена індійськими фахівцями для боротьби з важкими та рецидивуючими ф...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 8, "name": "Експігмент 4%, 30 г Гель від пігментних плям", "category": "Дерматологічний догляд", "subcategory": "Пігментація, мелазма та постакне", "price": 290, "oldPrice": 350, "image": "https://skinel.com.ua/content/images/11/hel-vid-pihmentatsii-ekspihment-expigment-30h-60512060136005_+69ead422dc.jpg", "description": "Безкоштовна доставка при замовленні 2х упаковок Expigment (Експігмент) 4% — це висококонцентрований дерматологічний засіб, розроблений для цілеспрямованої боротьби з найбільш стійк...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 9, "name": "Гель Kojivit Ultra койєва кислота від пігментації 30г Індія", "category": "Дерматологічний догляд", "subcategory": "Пігментація, мелазма та постакне", "price": 490, "oldPrice": null, "image": "https://skinel.com.ua/content/images/29/hel-kojivit-ultra-koiieva-kyslota-vid-pihmentatsii-30h-indiia-64375677959938_+1aaa49f5f5.png", "description": "Гель Kojivit Ultra коєва кислота від пігментації 30г Індія від Індія, це дерматологічний засіб для шкіри з акне, постакне або пігментацією, який використовують відповідно до призна...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 10, "name": "Гель Kojivit Plus для усунення пігментних плям 15г Індія", "category": "Дерматологічний догляд", "subcategory": "Пігментація, мелазма та постакне", "price": 462, "oldPrice": null, "image": "https://skinel.com.ua/content/images/30/hel-kojivit-plus-dlia-usunennia-pihmentnykh-pliam-15h-indiia-71830356535504_+e1b72f51c5.png", "description": "Дерматологічний гель Kojivit Plus — це високоефективний індійський препарат, визнаний світовим співтовариством дерматологів одним із найнадійніших та найбезпечніших засобів для кор...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 11, "name": "Комплекс від пігментації Expigment 4% + Kojivit Ultra Gel — освітлення та вирівнювання тону", "category": "Дерматологічний догляд", "subcategory": "Пігментація, мелазма та постакне", "price": 849, "oldPrice": null, "image": "https://skinel.com.ua/content/images/7/45843801881307_+500814f571.jpg", "description": "Комплекс від пігментації Expigment 4% + Kojivit Ultra Gel Expigment 4% + Kojivit Ultra Gel — це ефективний комплекс для боротьби з гіперпігментацією різного походження: віковою, го...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 12, "name": "Мазь від псоріазу з кам'яновугільною смолою Деро-бін Індія 30 г", "category": "Лікувальний догляд за тілом", "subcategory": "Псоріаз, себорейний дерматит і лущення", "price": 521, "oldPrice": null, "image": "https://skinel.com.ua/content/images/2/93089736660781_+6420aec01b.png", "description": "Мазь Деробін (Derobin) — це спеціалізований дерматологічний засіб індійського виробництва, призначений для інтенсивної терапії хронічного псоріазу та станів, що супроводжуються сил...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 13, "name": "Мазь Бета-салік Beta-salic з бета-мета-зоном Туреччина", "category": "Лікувальний догляд за тілом", "subcategory": "Псоріаз, себорейний дерматит і лущення", "price": 458, "oldPrice": null, "image": "https://skinel.com.ua/content/images/22/79300148628721_+f309390fd1.jpg", "description": "Мазь Бета-салік 0,05% + 3% з бета-метазоном та саліциловою кислотою Бета-салік — це ефективний засіб для лікування різних дерматозів, що містить бета-метазон та саліциловою кислоту ...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 14, "name": "Шампунь з Кам’яновугільною смолою Tarlic Тарлік 100 мл", "category": "Догляд за волоссям та шкірою голови", "subcategory": "Лупа, себорея та лущення шкіри голови", "price": 249, "oldPrice": null, "image": "https://skinel.com.ua/content/images/32/terapevtychnyi-protyzapalnyi-shampun-tarlic-100-ml-indiia-64171235878178_+1ccf96484f.jpg", "description": "Безкоштовна доставка при замовленні від 2 х штук. Шампунь Tarlic (Тарлик) — це висококонцентрований дерматологічний засіб спеціального призначення, розроблений для інтенсивної боро...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 15, "name": "Тарлік мило проти псоріазу та себорейного дерматиту 75г Індія", "category": "Лікувальний догляд за тілом", "subcategory": "Псоріаз, себорейний дерматит і лущення", "price": 278, "oldPrice": null, "image": "https://skinel.com.ua/content/images/43/tarlik-mylo-proty-psoriazu-ta-seboreinoho-dermatytu-75h-indiia-83489374086752_+e01c79a4ac.jpg", "description": "Спеціалізоване дерматологічне мило Tarlic (Тарлік) індійського виробництва — це високоефективний лікувальний засіб, розроблений для комплексної терапії псоріазу, себорейного дермат...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 16, "name": "Крем Тарлік Макс проти псориазу і себорейного дерматиту", "category": "Лікувальний догляд за тілом", "subcategory": "Псоріаз, себорейний дерматит і лущення", "price": 278, "oldPrice": null, "image": "https://skinel.com.ua/content/images/50/krem-tarlik-maks-proty-psoryazu-i-seboreinoho-dermatytu-34944501361556_+e15f817334.png", "description": "Безкоштовна доставка при замовленні від 2 х штук. Крем Тарлик Макс (Tarlic Max) — це високоефективний терапевтичний засіб спеціального призначення, розроблений для інтенсивної боро...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 17, "name": "Neutrogena T/Gel Scalp Relief Shampoo 250 мл — Шампунь проти лупи з саліциловою кислотою", "category": "Догляд за волоссям та шкірою голови", "subcategory": "Лупа, себорея та лущення шкіри голови", "price": 1311, "oldPrice": null, "image": "https://skinel.com.ua/content/images/14/21425617384163_+5d75345725.png", "description": "Neutrogena T/Gel Scalp Relief Shampoo — це професійний лікувальний засіб для догляду за шкірою голови, розроблений американськими фахівцями для боротьби з найскладнішими проявами л...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 18, "name": "KETO-CARE Alister мило з кетоконазолом 2% і цинк піритіоном 1% для шкіри з грибковим та себорейним лущенням, 75 г", "category": "Дерматологічний догляд", "subcategory": "Проблемна шкіра", "price": 249, "oldPrice": null, "image": "https://skinel.com.ua/content/images/23/75639275091392_+684e0f2587.png", "description": "KETO-CARE Alister — мило з кетоконазолом і цинк піритіоном Опис продукту KETO-CARE від Alister — мило для зовнішнього очищення шкіри, схильної до грибкового або себорейного лущення...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 19, "name": "Іруксол Iruxol Італія", "category": "Лікувальний догляд за тілом", "subcategory": "Рани, опіки та антисептичний догляд", "price": 1649, "oldPrice": null, "image": "https://skinel.com.ua/content/images/44/yruksol-iruxol-38375841246248_+892edd2efb.jpg", "description": "Іруксол - мазь з унікальною комбінацією коллагеназа і асоційованого протеаза. Ці активні компоненти видаляють всі білкові елементи з рани, тим самим прискорюють процес очищення від...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на очищену суху шкіру згідно з рекомендаціями або призначенням спеціаліста."}, {"id": 20, "name": "Сільвердін крем для шкіри Сульфадиазин срібла Silverdin cream 40 г", "category": "Лікувальний догляд за тілом", "subcategory": "Рани, опіки та антисептичний догляд", "price": 1051, "oldPrice": null, "image": "https://skinel.com.ua/content/images/24/sylverdyn-krem-dlia-kozhy-sulfadyazyn-serebra-silverdin-cream-40-h-97700196546194_+299d395ad0.jpg", "description": "Крем Silverdin (Сільвердин) — це високоефективний антибактеріальний засіб місцевої дії, який є незамінним елементом домашньої та професійної аптечки для лікування опіків та інфіков...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 21, "name": "Betadine 10% розчин 125 мл ефективний антисептик широкого спектру дії", "category": "Лікувальний догляд за тілом", "subcategory": "Рани, опіки та антисептичний догляд", "price": 1005, "oldPrice": null, "image": "https://skinel.com.ua/content/images/4/betadine-10-rozchyn-125-ml-efektyvnyi-antyseptyk-shyrokoho-spektru-dii-66352351848427_+06ec476fe8.jpg", "description": "Бетадин (Betadine) 10% розчин у флаконі 125 мл — це універсальний антисептичний препарат широкого спектра дії, що виготовляється в Італії за найвищими європейськими стандартами яко...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 22, "name": "Betadine 10% Гель – дерматологічний антисептичний засіб", "category": "Лікувальний догляд за тілом", "subcategory": "Рани, опіки та антисептичний догляд", "price": 788, "oldPrice": null, "image": "https://skinel.com.ua/content/images/3/18509633986552_+716a96dceb.png", "description": "Бетадин (Betadine) 10% Гель — це високоефективний антисептичний препарат широкого спектра дії, призначений для місцевого лікування та профілактики інфекцій шкіри. Виготовлений в Іт...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 23, "name": "Бетадин 10% гель антисептичний з повідон-йодом 100 г Viatris", "category": "Лікувальний догляд за тілом", "subcategory": "Рани, опіки та антисептичний догляд", "price": 1288, "oldPrice": null, "image": "https://skinel.com.ua/content/images/42/90814897654384_+47808dd82c.png", "description": "Бетадин (Betadine) 10% Гель в економічній упаковці 100 г — це універсальний антисептичний препарат італійського виробництва, що забезпечує професійний уровень дезінфекції та загоєнн...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 24, "name": "Розчин антисептичний Бетадин (Betadine) 10% на основі повідон-йоду, 500 мл (Італія)", "category": "Лікувальний догляд за тілом", "subcategory": "Рани, опіки та антисептичний догляд", "price": 3090, "oldPrice": null, "image": "https://skinel.com.ua/content/images/43/rozchyn-antyseptychnyi-betadyn-betadine-10-na-osnovi-povidon-iodu-500-ml-italiia-36015332970061_+3d513a0b47.jpg", "description": "Бетадин 10% (500 мл) — професійна дезінфекція без болю та подразнень Обробка ран часто асоціюється з неприємним печінням, особливо у дітей. Антисептичний розчин Бетадин 10% повніст...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на очищену суху шкіру згідно з рекомендаціями або призначенням спеціаліста."}, {"id": 25, "name": "Гель від рубців на основі силікону Jaysuing Silicone Scar Gel 30 г", "category": "Дерматологічний догляд", "subcategory": "Рубці, шрами та відновлення", "price": 649, "oldPrice": null, "image": "https://skinel.com.ua/content/images/4/hel-vid-rubtsiv-na-osnovi-sylikonu-jaysuing-silicone-scar-gel-30-h-81288128720868_+791d96d654.jpg", "description": "JAYSUING Skin Repair Fade Scars Silicone Scar Gel 30 г – високоефективний силіконовий гель для зменшення видимості рубців та відновлення шкіри JAYSUING Skin Repair Fade Scars – це ...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на очищену суху шкіру згідно з рекомендаціями або призначенням спеціаліста."}, {"id": 26, "name": "ScarAway силіконовий гель для шрамів і рубців 20 г для обличчя та тіла", "category": "Дерматологічний догляд", "subcategory": "Рубці, шрами та відновлення", "price": 1030, "oldPrice": null, "image": "https://skinel.com.ua/content/images/1/scaraway-sylikonovyi-hel-dlia-shramiv-i-rubtsiv-20-h-dlia-oblychchia-ta-tila-39641442445514_+a1eac65df2.png", "description": "ScarAway Medical-Grade Silicone Scar Gel — прозорий силіконовий гель для догляду за шрамами та рубцями на обличчі й тілі. Засіб підходить для нових і старих рубців, а також допомаг...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 27, "name": "KELO-COTE Scar Treatment силіконовий гель для шрамів і рубців 15 г", "category": "Дерматологічний догляд", "subcategory": "Рубці, шрами та відновлення", "price": 1339, "oldPrice": null, "image": "https://skinel.com.ua/content/images/3/kelo-cote-scar-treatment-sylikonovyi-hel-dlia-shramiv-i-rubtsiv-15-h-46245429464569_+c95dd64b65.png", "description": "KELO-COTE Scar Treatment — силіконовий гель для догляду за шрамами та рубцями, створений для зменшення їхньої помітності та підтримки більш рівного вигляду шкіри. Формат гелю зручн...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 28, "name": "Dermatix Ultra гель для шрамів і рубців з вітаміном C", "category": "Дерматологічний догляд", "subcategory": "Рубці, шрами та відновлення", "price": 1028, "oldPrice": null, "image": "https://skinel.com.ua/content/images/4/dermatix-ultra-hel-dlia-shramiv-i-rubtsiv-z-vitaminom-c-ester-21360579816302_+000c835097.jpg", "description": "Dermatix Ultra — спеціалізований гель для догляду за шкірою зі шрамами та рубцями. Формула поєднує силіконову основу та Vitamin C ester, завдяки чому засіб підходить для регулярног...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 29, "name": "Efaderm крем 60 г", "category": "Дерматологічний догляд", "subcategory": "Сухість, свербіж та бар’єр шкіри", "price": 618, "oldPrice": null, "image": "https://skinel.com.ua/content/images/20/efaderm-krem-60-h-16720616613534_+e0114f3e76.jpg", "description": "Огляд продукту та дерматологічне призначення Крем Efaderm (Ефадерм) від всесвітньо відомої лабораторії Galderma — це високотехнологічний емолієнт терапевтичного класу, створений дл...", "ingredients": "Містить активні терапевтичні компоненти для цільового догляду за шкірою.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}, {"id": 30, "name": "ULACT-P Alister крем із сечовиною 10% і молочною кислотою 10% для сухої та огрубілої шкіри, 50 г", "category": "Дерматологічний догляд", "subcategory": "Сухість, свербіж та бар’єр шкіри", "price": 249, "oldPrice": null, "image": "https://skinel.com.ua/content/images/24/82686113981584_+fd0e8558c9.png", "description": "ULACT-P Alister — крем із сечовиною та молочною кислотою для сухої й огрубілої шкіри Опис продукту ULACT-P від Alister — крем для зовнішнього догляду за сухою, шорсткою та огрубіло...", "ingredients": "Див. інструкцію або повний склад на упаковці продукту.", "usage": "Наносити на уражені або проблемні ділянки шкіри за інструкцією."}];
 
     /* =========================================================
        2. СТАН ЗАСТОСУНКУ
@@ -467,7 +190,8 @@
     const cartKey = 'dermacare_cart';
 
     let currentRoute = 'home';
-    let currentCatalogCategory = 'акне';
+    let currentCatalogCategory = 'Дерматологічний догляд';
+    let currentSubcategory = 'Всі товари';
     let cart = loadCart();
 
     /* =========================================================
@@ -512,7 +236,7 @@
     }
 
     /* =========================================================
-       4. ШАБЛОНИ КАРТОК ТОВАРІВ
+       4. ШАБЛОНИ КАРТОК ТОВАРІВ (З ОПТИМІЗАЦІЄЮ ЗОБРАЖЕНЬ)
     ========================================================== */
     function productCard(product) {
       const hasDiscount = Boolean(product.oldPrice);
@@ -520,13 +244,13 @@
       return `
          <article class="group relative overflow-hidden rounded-[1.7rem] bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-xl">
            ${hasDiscount ? '<span class="absolute left-4 top-4 z-10 rounded-full bg-rose-500 px-3 py-1 text-xs font-bold text-white shadow-lg">-15%</span>' : ''}
-           <div class="aspect-[4/3] overflow-hidden bg-derm-mint/30">
-             <img src="${product.image}" alt="${escapeHtml(product.name)}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+           <div class="aspect-[4/3] overflow-hidden bg-white flex items-center justify-center p-3">
+             <img src="${product.image}" alt="${escapeHtml(product.name)}" class="h-full w-full object-contain transition duration-500 group-hover:scale-102" loading="lazy" />
            </div>
-           <div class="p-5">
-             <p class="mb-2 inline-flex rounded-full bg-derm-cream px-3 py-1 text-xs font-semibold capitalize text-derm-green">${product.category}</p>
-             <h3 class="min-h-[3.5rem] text-base font-bold leading-6 text-derm-dark">${product.name}</h3>
-             <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">${product.description}</p>
+           <div class="p-5 border-t border-slate-50/60">
+             <p class="mb-2 inline-flex rounded-full bg-derm-cream px-3 py-1 text-xs font-semibold text-derm-green max-w-full truncate">${product.subcategory}</p>
+             <h3 class="min-h-[3.5rem] text-sm font-bold leading-5 text-derm-dark line-clamp-2">${product.name}</h3>
+             <p class="mt-2 line-clamp-2 text-xs leading-5 text-slate-500">${product.description}</p>
              <div class="mt-4 flex items-end gap-2">
                <span class="text-xl font-bold text-derm-dark">${formatPrice(product.price)}</span>
                ${hasDiscount ? `<span class="text-sm text-slate-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
@@ -541,6 +265,9 @@
     }
 
     function productGrid(items) {
+      if (items.length === 0) {
+        return `<p class="text-center text-slate-500 py-10">Немає товарів у цій підкатегорії.</p>`;
+      }
       return `
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           ${items.map(productCard).join('')}
@@ -552,15 +279,15 @@
        5. РЕНДЕР СТОРІНОК
     ========================================================== */
     function renderHome() {
-      const popularProducts = products.filter((product) => [1, 3, 11, 15].includes(product.id));
+      const popularProducts = products.filter((product) => [1, 2, 8, 14].includes(product.id));
 
       app.innerHTML = `
         <section class="overflow-hidden rounded-[2rem] bg-gradient-to-br from-derm-dark via-derm-green to-[#8FBCAF] p-6 text-white shadow-soft sm:p-10 lg:p-14">
           <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <p class="mb-4 inline-flex rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur">Догляд для проблемної та чутливої шкіри</p>
-              <h1 class="max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">Дерматокосметика для акне, пігментації та сухої шкіри</h1>
-              <p class="mt-5 max-w-2xl text-base leading-8 text-white/75">Зберіть базову рутину: очищення, активний догляд, відновлення бар’єра та SPF. Каталог працює без бекенду, а кошик зберігається локально у браузері.</p>
+              <p class="mb-4 inline-flex rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur">Лікувальна дерматокосметика за стандартами фармакології</p>
+              <h1 class="max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">Професійний догляд для проблемної шкіри голови та тіла</h1>
+              <p class="mt-5 max-w-2xl text-base leading-8 text-white/75">Оновлений каталог продукції на базі клінічно доведених компонентів: боротьба з акне, гіперпігментацією, лущенням, псоріазом та догляд за шрамами.</p>
               <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                 <button class="route-link rounded-2xl bg-white px-6 py-3 font-bold text-derm-dark transition hover:bg-derm-cream" data-route="catalog">В каталог</button>
                 <button class="route-link rounded-2xl border border-white/35 px-6 py-3 font-bold text-white transition hover:bg-white/10" data-route="promos">Переглянути акції</button>
@@ -576,8 +303,8 @@
         <section class="mt-12">
           <div class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-              <p class="font-semibold text-derm-green">Популярні товари</p>
-              <h2 class="mt-1 text-3xl font-black text-derm-dark">Часто обирають для базової рутини</h2>
+              <p class="font-semibold text-derm-green">Терапевтичні хіти</p>
+              <h2 class="mt-1 text-3xl font-black text-derm-dark">Часто обирають для відновлення шкіри</h2>
             </div>
             <button class="route-link rounded-2xl bg-white px-5 py-3 text-sm font-bold text-derm-dark shadow-soft transition hover:bg-derm-mint/30" data-route="catalog">Усі товари</button>
           </div>
@@ -587,37 +314,71 @@
         <section class="mt-12 grid gap-6 rounded-[2rem] bg-white p-6 shadow-soft md:grid-cols-3 sm:p-8">
           <div class="md:col-span-1">
             <p class="font-semibold text-derm-green">Про нас</p>
-            <h2 class="mt-2 text-3xl font-black text-derm-dark">Підбір догляду без зайвого ускладнення</h2>
+            <h2 class="mt-2 text-3xl font-black text-derm-dark">Експертний підхід до терапії недосконалостей</h2>
           </div>
           <div class="space-y-4 text-sm leading-7 text-slate-600 md:col-span-2">
-            <p>DermaCare — демонстраційний міні-магазин, створений як чистий frontend-проєкт. Усі товари, кошик, модальні вікна, таби, роутинг і оформлення замовлення працюють через JavaScript без серверної частини.</p>
-            <p>У каталозі товари розподілені за трьома напрямами: акне, пігментація та псоріаз. Опис товарів можна швидко замінити на ваш реальний асортимент.</p>
+            <p>skinova.com.ua пропонує збалансоване поєднання космецевтики та фармакологічних засобів догляду за епідермісом. Наша база даних автоматично імпортована зі спеціалізованого каталогу продукції, гарантуючи точність цін та наявність активних компонентів.</p>
+            <p>У каталозі товари чітко розподілені за категоріями, які охоплюють як дерматологічний догляд (проблемна шкіра, шрами, пігментація), так і цільовий догляд за тілом і волоссям (боротьба з лупою та псоріатичними бляшками).</p>
           </div>
         </section>
       `;
     }
 
     function renderCatalog() {
-      const categories = ['акне', 'пігментація', 'псоріаз'];
-      const filteredProducts = products.filter((product) => product.category === currentCatalogCategory);
+      const categories = ['Дерматологічний догляд', 'Лікувальний догляд за тілом', 'Догляд за волоссям та шкірою голови'];
+      
+      const allSubcats = products
+        .filter(p => p.category === currentCatalogCategory)
+        .map(p => p.subcategory);
+      const uniqueSubcats = ['Всі товари', ...new Set(allSubcats)];
+
+      const filteredProducts = products.filter((product) => {
+        const matchesCat = product.category === currentCatalogCategory;
+        const matchesSubcat = currentSubcategory === 'Всі товари' || product.subcategory === currentSubcategory;
+        return matchesCat && matchesSubcat;
+      });
 
       app.innerHTML = `
         <section>
           <div class="mb-8 rounded-[2rem] bg-white p-6 shadow-soft sm:p-8">
-            <p class="font-semibold text-derm-green">Каталог</p>
-            <h1 class="mt-2 text-4xl font-black text-derm-dark">Оберіть напрям догляду</h1>
-            <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-600">Перемикайте підрозділи каталогу через таби. Усі картки, модальні вікна та додавання в кошик працюють без перезавантаження сторінки.</p>
+            <p class="font-semibold text-derm-green">Каталог товарів</p>
+            <h1 class="mt-2 text-4xl font-black text-derm-dark">Оберіть напрям терапії</h1>
+            <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-600">Перемикайте основні категорії та уточнюйте вибір за допомогою підкатегорій для швидкого пошуку лікувальних формул.</p>
 
-            <div class="mt-6 flex gap-3 overflow-x-auto no-scrollbar">
+            <div class="mt-6 flex gap-3 overflow-x-auto no-scrollbar border-b border-slate-100 pb-4">
               ${categories.map((category) => `
                 <button class="catalog-tab whitespace-nowrap rounded-2xl px-5 py-3 text-sm font-bold transition ${currentCatalogCategory === category ? 'bg-derm-dark text-white shadow-soft' : 'bg-derm-cream text-derm-dark hover:bg-derm-mint/50'}" data-category="${category}">
-                  ${category === 'акне' ? 'Засоби від акне' : category === 'пігментація' ? 'Засоби від пігментації' : 'Псоріаз'}
+                  ${category}
+                </button>
+              `).join('')}
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-2">
+              ${uniqueSubcats.map((subcat) => `
+                <button class="subcategory-tab rounded-xl px-4 py-2 text-xs font-semibold transition ${currentSubcategory === subcat ? 'bg-derm-green text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}" data-subcat="${subcat}">
+                  ${subcat}
                 </button>
               `).join('')}
             </div>
           </div>
 
           ${productGrid(filteredProducts)}
+
+          <article class="mt-16 rounded-[2rem] bg-white p-6 shadow-soft sm:p-10 text-slate-700 leading-relaxed">
+            <h2 class="text-2xl font-black text-derm-dark mb-4">Ефективна дерматокосметика в інтернет-магазині skinova.com.ua: професійне рішення для здоров'я вашої шкіри</h2>
+            <p class="mb-4 text-sm text-slate-600">Сучасний ритм життя, екологічні фактори, стреси та незбалансоване харчування миттєво відображаються на стані нашої шкіри. Інтернет-магазин <strong>skinova.com.ua</strong> створений для того, щоб надати кожному доступ до високоефективних та науково обґрунтованих засобів щоденного догляду. Наш каталог пропонує сертифіковану дерматокосметику, яка розробляється провідними лабораторіями з урахуванням специфічних потребами різних типів шкіри. На відміну від звичайних засобів мас-маркету, лікувальна косметика містить оптимальну концентрацію активних компонентів, що діють безпосередньо на причину виникнення естетичних та дерматологічних проблем.</p>
+            
+            <h3 class="text-lg font-bold text-derm-dark mt-6 mb-2">Напрямки догляду та цільова терапія</h3>
+            <p class="mb-4 text-sm text-slate-600">У нашому асортименті ви знайдете спеціалізовані лінійки продуктів, розподілені за ключовими терапевтичними напрямками, що дозволяє максимально точно підібрати індивідуальну програму відновлення:</p>
+            <ul class="list-disc pl-5 mb-4 text-sm text-slate-600 space-y-2">
+              <li><strong>Комплексна боротьба з акне та комедонами:</strong> Проблемна шкіра потребує делікатного, але системного підходу. У каталозі представлені інноваційні гелі та очищувальні засоби на основі бензоїл пероксиду різної концентрації (2.5% та 5%), адапалену та кліндаміцину. Ці компоненти ефективно знижують активність бактерій, нормалізують вироблення шкірного себуму, м'яко відлущують ороговілі клітини та запобігають появі нових запальних елементів і чорних цяток.</li>
+              <li><strong>Усунення гіперпігментації та вирівнювання тону:</strong> Поява пігментних плям, постакне та тьмяний колір обличчя більше не є проблемою. Завдяки сироваткам та кремам із вмістом гідрохінону, азелаїнової та койєвої кислот, ніацинаміду і вітаміну C, ви зможете м'яко освітлити шкіру, заблокувати надлишкове вироблення меланіну та повернути обличчю природне здорове сяйво. Обов'язковим елементом захисту в цій категорії є потужні сонцезахисні креми SPF 50+, які запобігають фотостарінню.</li>
+              <li><strong>Заспокоєння шкіри при псоріазі та екстремальній сухості:</strong> Чутлива, лущенням покрита та подразнена шкіра потребує інтенсивного відновлення гідроліпідного бар'єра. Наші лікувальні шампуні з дьогтем чи цинк піритіоном, а також терапевтичні бальзами з сечовиною (10%) та керамідами миттєво зменшують свербіж, делікатно видаляють лусочки, глибоко зволожують епідерміс та утворюють захисну мантію, що мінімізує негативний вплив навколишнього середовища.</li>
+            </ul>
+
+            <h3 class="text-lg font-bold text-derm-dark mt-6 mb-2">Чому варто купувати на skinova.com.ua?</h3>
+            <p class="text-sm text-slate-600">Ми прагнемо зробити ваш шлях до ідеальної шкіри максимально простим, зрозумілим та безпечним. Кожна позиція в нашому каталозі супроводжується детальним описом складу та чіткими інструкціями щодо правильного застосування активних речовин, що допомагає уникнути подразнень та отримати стійкий позитивний результат у домашніх умовах. Завдяки продуманій системі навігації, зручному локальному кошику та оперативній доставці, процес покупки стає комфортним та швидким. Довірте турботу про свою красу перевіреній дерматокосметиці від <strong>skinova.com.ua</strong> та насолоджуйтеся здоровим виглядом своєї шкіри щодня!</p>
+          </article>
         </section>
       `;
     }
@@ -627,14 +388,10 @@
         <section class="rounded-[2rem] bg-white p-6 shadow-soft sm:p-10">
           <p class="font-semibold text-derm-green">Оплата і доставка</p>
           <h1 class="mt-2 text-4xl font-black text-derm-dark">Зручне отримання замовлення</h1>
-          <div class="mt-8 grid gap-5 md:grid-cols-3">
+          <div class="mt-8 grid gap-5 md:grid-cols-2">
             <div class="rounded-3xl bg-derm-cream p-6">
               <p class="text-xl font-bold text-derm-dark">Нова Пошта</p>
               <p class="mt-3 text-sm leading-7 text-slate-600">Доставка у відділення, поштомат або кур’єром за тарифами перевізника. Після оформлення менеджер уточнить дані доставки.</p>
-            </div>
-            <div class="rounded-3xl bg-derm-cream p-6">
-              <p class="text-xl font-bold text-derm-dark">Самовивіз</p>
-              <p class="mt-3 text-sm leading-7 text-slate-600">Можливий самовивіз після підтвердження замовлення. Адресу та час отримання узгоджує менеджер.</p>
             </div>
             <div class="rounded-3xl bg-derm-cream p-6">
               <p class="text-xl font-bold text-derm-dark">Оплата</p>
@@ -651,11 +408,17 @@
       app.innerHTML = `
         <section>
           <div class="mb-8 rounded-[2rem] bg-gradient-to-br from-rose-500 to-derm-dark p-6 text-white shadow-soft sm:p-10">
-            <p class="font-semibold text-white/80">Accum</p>
+            <p class="font-semibold text-white/80">skinova.com.ua</p>
             <h1 class="mt-2 text-4xl font-black">Товари зі знижкою -15%</h1>
-            <p class="mt-3 max-w-3xl text-sm leading-7 text-white/75">Акційні позиції мають стару ціну, нову ціну та яскравий стікер на картці. Кількість і перелік акцій можна змінити у масиві products.</p>
+            <p class="mt-3 max-w-3xl text-sm leading-7 text-white/75">Акційні терапевтичні позиції мають стару ціну, нову ціну та яскравий стікер на картці. Кількість і перелік акцій можна змінити у масиві products.</p>
           </div>
           ${productGrid(promoProducts)}
+
+          <article class="mt-12 rounded-[2rem] bg-white p-6 shadow-soft sm:p-8 text-slate-700 leading-relaxed">
+            <h2 class="text-2xl font-black text-derm-dark mb-3">Вигідні пропозиції та акційні знижки на лікувальну косметику від skinova.com.ua</h2>
+            <p class="text-sm text-slate-600 mb-4">Краса та здоров'я шкіри не повинні вимагати надмірних компромісів із бюджетом. Спеціальний розділ акцій інтернет-магазину <strong>skinova.com.ua</strong> створений для того, щоб ви могли придбати преміальну дерматокосметику від провідних виробників за максимально привабливими цінами. Ми регулярно оновлюємо асортимент акційних позицій, пропонуючи знижки на найпопулярніші гелі проти висипань, освітлювальні сироватки та відновлювальні спеціалізовані emulsions.</p>
+            <p class="text-sm text-slate-600">Купуючи лікувальні засоби зі знижкою 15% та більше, ви отримуєте оригінальну продукцію з високою концентрацією активних компонентів без втрати якості. Це унікальний шанс спробувати нові продукти для вашої б'юті-рутини, сформувати комплексний догляд або вигідно поповнити запаси вже улюблених засобів для боротьби з акне, пігментними плямами чи надмірною сухістю. Слідкуйте за нашими оновленнями, обирайте ефективний професійний догляд та заощаджуйте разом із нами!</p>
+          </article>
         </section>
       `;
     }
@@ -666,8 +429,8 @@
           <p class="font-semibold text-derm-green">Політика конфіденційності</p>
           <h1 class="mt-2 text-4xl font-black text-derm-dark">Угода про обробку даних</h1>
           <div class="mt-8 space-y-5 text-sm leading-7 text-slate-600">
-            <p>Ця політика конфіденційності описує, як демонстраційний сайт DermaCare обробляє дані користувача під час оформлення замовлення. Сайт працює без бекенду, тому дані форми не передаються на сервер.</p>
-            <p>Кошик зберігається локально у браузері користувача за допомогою localStorage. Після підтвердження демонстраційного замовлення кошик очищується, а користувач бачить повідомлення про прийняття замовлення.</p>
+            <p>Ця політика конфіденційності описує, як сайт skinova.com.ua обробляє дані користувача під час оформлення замовлення. Сайт працює без бекенду, тому дані форми не передаються на server.</p>
+            <p>Кошик зберігається локально у браузері користувача за допомогою localStorage. Після підтвердження замовлення кошик очищується, а користувач бачить повідомлення про прийняття замовлення.</p>
             <p>У реальному інтернет-магазині перед запуском потрібно додати повноцінну політику конфіденційності, умови обробки персональних даних, правила оплати, доставки, повернення та контакти юридичної особи.</p>
             <p>Користувач має право звернутися до адміністратора сайту для уточнення, зміни або видалення своїх персональних даних, якщо такі дані збираються у реальній версії магазину.</p>
           </div>
@@ -705,7 +468,7 @@
 
       saveCart();
       updateCartUI();
-      closeProductModal(); // ФІКС 1: Закриваємо модалку для зручності
+      closeProductModal();
       openCart();
     }
 
@@ -764,10 +527,10 @@
             if (!product) return '';
 
             return `
-              <div class="flex gap-4 rounded-3xl border border-slate-100 p-3">
-                <img src="${product.image}" alt="${escapeHtml(product.name)}" class="h-20 w-20 rounded-2xl object-cover" />
+              <div class="flex gap-4 rounded-3xl border border-slate-100 p-3 bg-white shadow-sm">
+                <img src="${product.image}" alt="${escapeHtml(product.name)}" class="h-20 w-20 rounded-2xl object-contain bg-slate-50 p-1" />
                 <div class="min-w-0 flex-1">
-                  <p class="line-clamp-2 text-sm font-bold text-derm-dark">${product.name}</p>
+                  <p class="line-clamp-2 text-xs font-bold text-derm-dark">${product.name}</p>
                   <p class="mt-1 text-sm font-semibold text-slate-700">${formatPrice(product.price)}</p>
                   <div class="mt-3 flex items-center justify-between gap-2">
                     <div class="flex items-center rounded-2xl bg-derm-cream p-1">
@@ -812,16 +575,16 @@
 
       modalContent.innerHTML = `
         <div class="grid gap-0 lg:grid-cols-[0.95fr_1.05fr]">
-          <div class="relative min-h-[320px] bg-derm-cream">
+          <div class="relative min-h-[320px] bg-white flex items-center justify-center p-6 lg:p-10">
             ${hasDiscount ? '<span class="absolute left-5 top-5 z-10 rounded-full bg-rose-500 px-4 py-2 text-sm font-bold text-white shadow-lg">-15%</span>' : ''}
-            <img src="${product.image}" alt="${escapeHtml(product.name)}" class="h-full max-h-[620px] w-full object-cover" />
+            <img src="${product.image}" alt="${escapeHtml(product.name)}" class="h-full max-h-[440px] w-full object-contain rounded-2xl" />
           </div>
 
-          <div class="p-6 sm:p-8">
+          <div class="p-6 sm:p-8 border-t lg:border-t-0 lg:border-l border-slate-100 bg-white">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <p class="mb-3 inline-flex rounded-full bg-derm-cream px-3 py-1 text-xs font-semibold capitalize text-derm-green">${product.category}</p>
-                <h2 class="text-3xl font-black leading-tight text-derm-dark">${product.name}</h2>
+                <p class="mb-3 inline-flex rounded-full bg-derm-cream px-3 py-1 text-xs font-semibold text-derm-green">${product.subcategory}</p>
+                <h2 class="text-xl font-black leading-tight text-derm-dark">${product.name}</h2>
               </div>
               <button id="closeModalBtn" class="rounded-full bg-slate-100 px-3 py-2 text-sm font-bold text-slate-700 hover:bg-slate-200" aria-label="Закрити">✕</button>
             </div>
@@ -831,14 +594,14 @@
               ${hasDiscount ? `<span class="text-base text-slate-400 line-through">${formatPrice(product.oldPrice)}</span>` : ''}
             </div>
 
-            <p class="mt-5 text-sm leading-7 text-slate-600">${product.description}</p>
+            <p class="mt-5 text-sm leading-6 text-slate-600">${product.description}</p>
 
             <div class="mt-6 rounded-3xl bg-derm-cream p-4">
               <div class="flex gap-2">
                 <button class="modal-tab rounded-2xl bg-derm-dark px-4 py-2 text-sm font-bold text-white" data-tab="ingredients">Склад</button>
-                <button class="modal-tab rounded-2xl px-4 py-2 text-sm font-bold text-derm-dark hover:bg-white" data-tab="usage">Спосіб застосування</button>
+                <button class="modal-tab rounded-2xl px-4 py-2 text-sm font-bold text-derm-dark hover:bg-white" data-tab="usage">Застосування</button>
               </div>
-              <div id="modalTabContent" class="mt-4 text-sm leading-7 text-slate-600">${product.ingredients}</div>
+              <div id="modalTabContent" class="mt-4 text-sm leading-6 text-slate-600">${product.ingredients}</div>
             </div>
 
             <button class="add-to-cart mt-6 w-full rounded-2xl bg-derm-dark px-6 py-4 font-bold text-white transition hover:bg-derm-green" data-id="${product.id}">
@@ -950,7 +713,6 @@
 
     function bindDynamicEvents() {
       document.querySelectorAll('.add-to-cart').forEach((button) => {
-        // Усуваємо дублювання слухачів подій за допомогою клонування або простої перезаписної логіки
         button.replaceWith(button.cloneNode(true));
       });
       
@@ -969,6 +731,15 @@
       document.querySelectorAll('.catalog-tab').forEach((button) => {
         button.addEventListener('click', () => {
           currentCatalogCategory = button.dataset.category;
+          currentSubcategory = 'Всі товари';
+          renderCatalog();
+          bindDynamicEvents();
+        });
+      });
+
+      document.querySelectorAll('.subcategory-tab').forEach((button) => {
+        button.addEventListener('click', () => {
+          currentSubcategory = button.dataset.subcat;
           renderCatalog();
           bindDynamicEvents();
         });
@@ -1008,7 +779,6 @@
     }
 
     function updateActiveNav() {
-      // ФІКС 2: Більш безпечне перемикання активних класів без видалення кастомних стилів
       document.querySelectorAll('.nav-btn').forEach((button) => {
         const isActive = button.dataset.route === currentRoute;
         if (isActive) {
