@@ -628,9 +628,9 @@
     }
 
     /* =========================================================
-       8. ОФОРМЛЕННЯ ЗАМОВЛЕННЯ
+       8. ОФОРМЛЕННЯ ЗАМОВЛЕННЯ ТА ВІДПРАВКА В TELEGRAM
     ========================================================== */
-    function handleCheckoutSubmit(event) {
+    async function handleCheckoutSubmit(event) {
       event.preventDefault();
 
       const name = document.getElementById('customerName').value.trim();
@@ -639,7 +639,9 @@
       const delivery = document.getElementById('deliveryMethod').value.trim();
       const payment = document.getElementById('paymentMethod').value.trim();
       const formError = document.getElementById('formError');
+      const submitBtn = event.target.querySelector('button[type="submit"]');
 
+      // Базова валідація
       if (!name || !phone || !city || !delivery || !payment) {
         formError.textContent = 'Заповніть усі поля форми перед підтвердженням замовлення.';
         formError.classList.remove('hidden');
@@ -655,23 +657,67 @@
       const total = getCartTotal();
       const firstName = name.split(' ')[0];
 
-      clearCart();
-      closeCart();
-      event.target.reset();
-      formError.classList.add('hidden');
-      showSuccessMessage(`Дякуємо, ${escapeHtml(firstName)}! Ваше замовлення на суму ${formatPrice(total)} успішно прийнято. Наш менеджер зв'яжеться з вами за номером ${escapeHtml(phone)}.`);
-    }
+      // Формування тексту повідомлення для Telegram
+      let message = `<b>🛒 НОВЕ ЗАМОВЛЕННЯ!</b>\n\n`;
+      message += `<b>👤 Клієнт:</b> ${escapeHtml(name)}\n`;
+      message += `<b>📞 Телефон:</b> ${escapeHtml(phone)}\n`;
+      message += `<b>📍 Місто:</b> ${escapeHtml(city)}\n`;
+      message += `<b>🚚 Доставка:</b> ${escapeHtml(delivery)}\n`;
+      message += `<b>💳 Оплата:</b> ${escapeHtml(payment)}\n\n`;
+      message += `<b>📦 ТОВАРИ:</b>\n`;
 
-    function showSuccessMessage(message) {
-      const toast = document.getElementById('successToast');
-      const successMessage = document.getElementById('successMessage');
+      cart.forEach((item, index) => {
+        const product = getProductById(item.id);
+        if (product) {
+          message += `${index + 1}. ${escapeHtml(product.name)} — ${item.quantity} шт. x ${product.price} грн\n`;
+        }
+      });
 
-      successMessage.innerHTML = message;
-      toast.classList.remove('hidden');
+      message += `\n<b>💰 СУМА ЗАМОВЛЕННЯ:</b> ${formatPrice(total)}`;
 
-      setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 6500);
+      // Дані Telegram бота
+      const botToken = '8877626129:AAHCPwFauLUVqe6adqHV0CZp2745aUjIq6c';
+      const chatId = '8522043344';
+      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+      // Блокуємо кнопку під час відправки, щоб уникнути дублів
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Відправка...';
+
+      try {
+        // Відправка POST-запиту до Telegram API
+        const response = await fetch(telegramUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'HTML' // Дозволяє використовувати жирний шрифт у повідомленні
+          })
+        });
+
+        if (response.ok) {
+          // Якщо відправка успішна, очищуємо кошик і форму
+          clearCart();
+          closeCart();
+          event.target.reset();
+          formError.classList.add('hidden');
+          showSuccessMessage(`Дякуємо, ${escapeHtml(firstName)}! Ваше замовлення на суму ${formatPrice(total)} успішно прийнято. Наш менеджер зв'яжеться з вами за номером ${escapeHtml(phone)}.`);
+        } else {
+          throw new Error('Помилка відправки в Telegram API');
+        }
+      } catch (error) {
+        // У разі помилки виводимо повідомлення для клієнта
+        formError.textContent = 'Сталася помилка при відправці замовлення. Будь ласка, спробуйте пізніше або зв\'яжіться з нами по телефону.';
+        formError.classList.remove('hidden');
+        console.error('Telegram Error:', error);
+      } finally {
+        // Розблоковуємо кнопку
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Підтвердити замовлення';
+      }
     }
 
     /* =========================================================
